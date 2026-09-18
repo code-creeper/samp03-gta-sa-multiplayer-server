@@ -1,0 +1,378 @@
+==============================================================================
+ CHEAT / ADMIN COMMANDS  -  SA-MP 0.3.7 server
+ Provided by filterscripts/cheats.pwn
+==============================================================================
+
+------------------------------------------------------------------------------
+ 0. BEFORE ANYTHING ELSE
+------------------------------------------------------------------------------
+
+Every command below requires RCON admin. Nothing works until you log in.
+
+Join the server, open chat (press T), and type:
+
+    /rcon login root
+
+("root" is the rcon_password from server.cfg. If you change it there,
+use the new one here.)
+
+You should see:  SERVER: You are logged in as admin.
+Then type /cheats at any time for the in-game command list.
+
+If a command replies "You are not logged in as an admin", your login
+expired or failed - just run /rcon login root again.
+
+NOTE: GTA's normal single-player cheat codes (HESOYAM, AEZAKMI, ...) do
+NOT work in SA-MP and never will. SA-MP removes them on purpose. The
+commands below are the replacement.
+
+
+------------------------------------------------------------------------------
+ 1. HEALTH, ARMOUR, GOD MODE
+------------------------------------------------------------------------------
+
+/hp [amount]              Set your health. No number = 100 (full).
+
+    /hp                   full health
+    /hp 50                half health
+    /hp 100               full health
+    /hp 5000              way above max - you survive almost anything,
+                          but the HP bar looks odd. Use /god instead.
+    /hp 1                 nearly dead (handy for testing)
+
+/armour [amount]          Set armour. No number = 100 (full).
+/armor  [amount]          Same thing, American spelling also works.
+
+    /armour               full armour
+    /armour 100           full armour
+    /armour 0             remove armour
+
+/god                      Toggle god mode ON / OFF. Type it again to turn
+                          it off. While ON, your health is topped up every
+                          second, and the vehicle you are driving is held at
+                          full health too (it can still look dented - use
+                          /fix for the cosmetic damage).
+
+    /god                  -> "God mode ON"
+    /god                  -> "God mode OFF"
+
+    God mode turns itself OFF automatically if you log out of RCON, so
+    you can't leave yourself invincible by accident.
+
+    God mode does NOT protect against: drowning, falling out of the map,
+    or being set on fire in some cases. It is health regen, not a shield.
+
+/jetpack                  Instantly gives you a jetpack.
+
+    Controls once you have it:
+      W / S       = forward / back
+      SPACE       = go up
+      LEFT CTRL   = go down
+      F or ENTER  = drop off the jetpack
+
+
+------------------------------------------------------------------------------
+ 2. MONEY
+------------------------------------------------------------------------------
+
+/cash [amount]            ADDS money to what you already have.
+                          No number = adds 100000.
+
+    /cash                 +$100,000
+    /cash 500             +$500
+    /cash 1000000         +$1,000,000
+    /cash -5000           TAKES $5,000 away (negative works)
+
+/setcash (amount)         SETS your money to exactly this. Wipes what you
+                          had first. Amount is required.
+
+    /setcash 999999       you now have exactly $999,999
+    /setcash 0            broke
+
+    Difference in one line:
+      /cash 100     ->  you had 500, now you have 600
+      /setcash 100  ->  you had 500, now you have 100
+
+    Max money in GTA SA is $999,999,999. Going over that displays wrong.
+
+
+------------------------------------------------------------------------------
+ 3. WEAPONS
+------------------------------------------------------------------------------
+
+/guns                     Gives a ready-made loadout, 5000 ammo each:
+                          knife, Desert Eagle, sawn-off shotgun, micro SMG,
+                          M4, sniper rifle, RPG, grenades, molotovs,
+                          fire extinguisher and a parachute.
+                          This is the "just give me everything" command.
+
+/wep (weaponid) [ammo]    Give one specific weapon.
+                          No ammo number = 5000 rounds.
+
+    /wep 24               Desert Eagle, 5000 ammo
+    /wep 31 999           M4 with 999 ammo
+    /wep 38               Minigun, 5000 ammo
+    /wep 35               Rocket launcher
+    /wep 46               Parachute (use it after /tp to a high place)
+    /wep 43               Camera (take screenshots in game)
+
+/noguns                   Drops every weapon you are carrying.
+                          Useful to clear a slot before giving a different
+                          weapon of the same type - SA only holds one weapon
+                          per slot, so /wep 30 (AK) replaces /wep 31 (M4).
+
+  WEAPON ID LIST
+  --------------
+    1  Brass Knuckles      22  9mm Pistol           34  Sniper Rifle
+    2  Golf Club           23  Silenced 9mm         35  Rocket Launcher
+    3  Nightstick          24  Desert Eagle         36  Heat Seeker RPG
+    4  Knife               25  Shotgun              37  Flamethrower
+    5  Baseball Bat        26  Sawn-off Shotgun     38  Minigun
+    6  Shovel              27  Combat Shotgun       39  Satchel Charges
+    7  Pool Cue            28  Micro SMG (Uzi)      40  Detonator
+    8  Katana              29  MP5                  41  Spraycan
+    9  Chainsaw            30  AK-47                42  Fire Extinguisher
+   15  Cane                31  M4                   43  Camera
+   16  Grenade             32  Tec-9                44  Night Vision
+   17  Tear Gas            33  Country Rifle        45  Thermal Goggles
+   18  Molotov Cocktail                             46  Parachute
+
+   (IDs 19, 20 and 21 are unused - /wep will accept them but you get
+    nothing. 0 is your fists, which you always have.)
+
+   Some fun ones: 10-14 are the joke melee weapons, 14 is Flowers.
+
+
+------------------------------------------------------------------------------
+ 4. VEHICLES
+------------------------------------------------------------------------------
+
+/veh (model) [colour1] [colour2]
+
+    Spawns the vehicle right where you stand and puts you in the driver
+    seat. Model must be 400-611. Colours are optional; leave them out for
+    a random paint job.
+
+    /veh 411              Infernus - the classic supercar
+    /veh 411 1 1          Infernus, black
+    /veh 411 3 3          Infernus, white
+    /veh 411 6 6          Infernus, red
+    /veh 520              Hydra - jet with missiles, straight up VTOL
+    /veh 432              Rhino - the tank
+    /veh 425              Hunter - attack helicopter
+    /veh 487              Maverick - normal helicopter
+    /veh 522              NRG-500 - fastest bike in the game
+    /veh 494 2 2          Hotring Racer
+    /veh 444              Monster truck
+    /veh 596              Police car (LSPD)
+    /veh 539              Vortex hovercraft - drives on land AND water
+
+  POPULAR MODEL IDs
+  -----------------
+   CARS - FAST            BIKES                  AIR
+    411  Infernus          522  NRG-500           520  Hydra (jet)
+    541  Bullet            521  FCR-900           425  Hunter (gunship)
+    451  Turismo           461  PCJ-600           487  Maverick (heli)
+    415  Cheetah           463  Freeway           497  Police Maverick
+    429  Banshee           468  Sanchez (dirt)    563  Raindance (heli)
+    477  ZR-350            481  BMX (pedal)       548  Cargobob (heli)
+    502  Hotring Racer     510  Mountain Bike     476  Rustler (plane)
+    506  Super GT          509  Bike (pedal)      511  Beagle (plane)
+    494  Hotring Racer                            553  Nevada (plane)
+    560  Sultan                                   593  Dodo (plane)
+    562  Elegy                                    460  Skimmer (seaplane)
+    559  Jester                                   577  AT-400 (airliner)
+    565  Flash                                    592  Andromada (huge)
+
+   HEAVY / FUN            EMERGENCY              BOATS
+    432  Rhino (tank)      596  Police Car LS     453  Reefer
+    444  Monster           597  Police Car SF     493  Jetmax (fast)
+    556  Monster A         598  Police Car LV     452  Speeder
+    557  Monster B         599  Police Ranger     430  Predator (armed)
+    495  Sandking          601  SWAT Van          446  Squalo
+    407  Firetruck         427  Enforcer          472  Coastguard
+    433  Barracks          416  Ambulance         539  Vortex (hover)
+    515  RoadTrain         490  FBI Rancher       484  Marquis (yacht)
+    406  Dumper            528  FBI Truck
+    486  Dozer             470  Patriot
+    441  RC Bandit         420  Taxi
+    464  RC Baron          431  Bus
+
+   Anything from 400 to 611 works. 449/537/538 are trains and behave
+   oddly off the rails. 435/450/584/591/606-611 are trailers with no
+   engine - they just sit there.
+
+  COLOUR NUMBERS (the usual ones)
+   0 black    1 black     2 grey     3 white     6 red      13 dark grey
+  36 orange  46 white    86 gold    123 pink    126 yellow  246 purple
+
+   Full range is 0-255. Pass the same number twice for a solid colour,
+   or two different numbers for a two-tone body/trim.
+
+/fix                      Fully repairs the vehicle you are in - dents,
+                          smoke, flames, broken panels, everything.
+                          Does not work if you're on foot.
+
+/nos                      Fits nitrous to your current vehicle.
+                          Press and hold FIRE (left mouse / LCTRL) to use.
+                          Only works on cars that can take NOS - it does
+                          nothing on bikes, boats, planes and helicopters.
+
+/flip                     Turns your vehicle back upright. Use this when
+                          you land on the roof instead of respawning.
+
+
+------------------------------------------------------------------------------
+ 5. TELEPORTING
+------------------------------------------------------------------------------
+
+/tp (x) (y) (z)           Teleport to exact coordinates. If you are driving,
+                          the car comes with you.
+
+    /tp 2495.0 -1687.0 13.5     Grove Street, Los Santos
+    /tp 1685.0 -2333.0 13.5     Los Santos International Airport
+    /tp 2027.0 1007.0 10.8      The Strip, Las Venturas
+    /tp -1980.0 300.0 35.0      San Fierro, Doherty
+    /tp -2340.0 -1600.0 483.0   Top of Mount Chiliad
+    /tp 213.0 1920.0 17.0       Area 69 (the restricted military base)
+    /tp 2495.0 -1687.0 500.0    Grove Street, but 500m up in the sky
+
+    The third number is HEIGHT. If you end up stuck inside the ground,
+    run the same command with a bigger z. If you teleport high up, grab
+    a parachute first with /wep 46.
+
+    Fun combo: /veh 411, then /tp 2495.0 -1687.0 800.0 and ride it down.
+
+/goto (playerid)          Teleport yourself TO another player.
+/get  (playerid)          Teleport another player TO you.
+
+    /goto 0               jump to player ID 0
+    /get 1                drag player ID 1 over to you
+
+    Player IDs are shown in the scoreboard (hold TAB). They are small
+    numbers starting at 0, not names. You are usually 0 if you're alone.
+
+
+------------------------------------------------------------------------------
+ 6. APPEARANCE, WEATHER, TIME
+------------------------------------------------------------------------------
+
+/skin (id)                Change your character model. Range 0-311.
+
+    /skin 0               CJ (the default single-player character)
+    /skin 285             SWAT officer
+    /skin 286             FBI agent
+    /skin 287             Army soldier
+    /skin 280             LSPD police officer
+    /skin 281             SFPD police officer
+    /skin 282             LVPD police officer
+    /skin 288             County Sheriff
+    /skin 265             Traffic cop
+
+    WARNING: skin 74 does not exist and will crash the game client.
+    Don't use it. Everything else in 0-311 is safe.
+
+    Changing skin resets your weapons in some gamemodes - re-run /guns
+    afterwards if you lose them.
+
+/weather (id)             Change the weather for the WHOLE server. 0-45.
+
+    /weather 0            bright clear sky
+    /weather 1            normal sunny
+    /weather 5            San Fierro sunny
+    /weather 8            RAIN and thunder
+    /weather 9            thick fog
+    /weather 11           blinding Las Venturas sun
+    /weather 16           rainy countryside
+    /weather 19           SANDSTORM (desert, orange haze)
+    /weather 20           murky green "underwater" look
+
+/time (hour)              Set the world clock, 0-23. Also server-wide.
+
+    /time 0               midnight
+    /time 6               sunrise
+    /time 12              midday
+    /time 20              sunset
+    /time 23              night
+
+    Note: /weather and /time affect every player on the server, not
+    just you.
+
+
+------------------------------------------------------------------------------
+ 7. READY-MADE COMBOS
+------------------------------------------------------------------------------
+
+Fully loaded and unkillable:
+    /rcon login root
+    /god
+    /armour
+    /guns
+    /cash 1000000
+
+Rampage setup:
+    /guns
+    /wep 38                     minigun
+    /god
+    /tp 2495.0 -1687.0 13.5     Grove Street
+
+Skydive:
+    /wep 46                     parachute FIRST
+    /tp 2027.0 1007.0 900.0     high over the Vegas strip
+    (then press F in the air to open the chute)
+
+Street race car, ready to go:
+    /veh 411 6 6                red Infernus
+    /nos
+    /fix
+
+Fighter jet run:
+    /god
+    /veh 520                    Hydra
+    /tp 1685.0 -2333.0 300.0    over LS airport at altitude
+
+Nice weather for screenshots:
+    /time 19
+    /weather 0
+    /wep 43                     camera
+
+
+------------------------------------------------------------------------------
+ 8. IF SOMETHING DOESN'T WORK
+------------------------------------------------------------------------------
+
+"You are not logged in as an admin"
+    Run /rcon login root again. Logging in is per-session; reconnecting
+    or a server restart logs you out.
+
+"SERVER: Unknown command" / nothing happens
+    The cheats filterscript isn't loaded. Check that server.cfg has
+    "cheats" in the filterscripts line, and restart the server.
+
+The car spawns but I'm not inside it
+    Happens if you were already in another vehicle. Get out and retry.
+
+"/veh : could not create vehicle (server limit reached)"
+    SA-MP caps total vehicles at 2000, and grandlarc already loads 1781
+    from its vehicle files, so you have roughly 219 spare slots.
+    Restart the server to clear the ones you spawned.
+
+My health keeps resetting / I can't die
+    God mode is still on. Type /god to turn it off.
+
+Everything is laggy and players teleport around
+    Unrelated to cheats - check onfoot_rate in server.cfg. Normal is
+    30-40. It is currently set very high, which delays sync updates.
+
+I changed cheats.pwn and nothing changed in game
+    You must recompile and restart:
+        ./tools/build.sh filterscripts/cheats.pwn
+        (then restart the server)
+
+
+==============================================================================
+ Full command list, short form:
+
+   /cheats  /hp  /armour  /god  /jetpack  /cash  /setcash  /wep  /guns
+   /noguns  /veh  /fix  /nos  /flip  /tp  /goto  /get  /skin  /weather  /time
+==============================================================================
