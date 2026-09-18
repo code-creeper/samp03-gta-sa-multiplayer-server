@@ -5,7 +5,7 @@ maxplayers 50
 port 7777
 hostname SA-MP 0.3 Server
 gamemode0 grandlarc 1
-filterscripts base cheats gl_actions gl_property gl_realtime
+filterscripts base gl_actions gl_property gl_realtime
 announce 0
 query 1
 weburl www.sa-mp.com
