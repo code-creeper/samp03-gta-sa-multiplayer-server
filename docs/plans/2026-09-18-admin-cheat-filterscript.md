@@ -48,6 +48,17 @@ In-game: `/rcon login root` then e.g. `/cash 999999`, `/hp`, `/veh 411`.
 | Restart samp03svr to verify | Verified in an isolated instance on port 7778 | The user's server was running in their own terminal; avoided killing it |
 | /god /tune commands | /god kept, /tune dropped, /noguns and /flip added | /tune needs a component-id UI to be useful; /noguns and /flip are more practical |
 
+## Follow-up (2026-09-18, user request)
+Admin gate made optional. The per-command `IsPlayerAdmin` checks were replaced by a
+`CanUseCheats()` helper controlled by `#define REQUIRE_ADMIN`, set to `0` so every
+player can use the commands with no RCON login. The god-mode tick no longer revokes
+god mode from non-admins. Both `IsPlayerAdmin` call sites remain in the source but
+compile out. `COMMANDS.txt` updated to match. Rebuilt and load-tested on port 7778.
+
+Trade-off accepted by the user: on a server reachable from the internet, any joining
+player could spawn vehicles and use `/get` to move other players. Mitigated by
+`lanmode 1` and `announce 0`; set `REQUIRE_ADMIN 1` before exposing the server.
+
 ## Notes
 - Build any script with `tools/build.sh <path.pwn>`.
 - One benign compile warning (239) on the `SetTimer` call: `funcname[]` is

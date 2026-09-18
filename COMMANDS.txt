@@ -7,20 +7,27 @@
  0. BEFORE ANYTHING ELSE
 ------------------------------------------------------------------------------
 
-Every command below requires RCON admin. Nothing works until you log in.
+No login is needed. Every player on the server can use every command
+below, straight after joining.
 
-Join the server, open chat (press T), and type:
+Join the server, open chat (press T), and type /cheats at any time for
+the in-game command list.
 
-    /rcon login root
+WANT TO LOCK THEM DOWN AGAIN?
+    Open filterscripts/cheats.pwn, find this line near the top:
 
-("root" is the rcon_password from server.cfg. If you change it there,
-use the new one here.)
+        #define REQUIRE_ADMIN         0
 
-You should see:  SERVER: You are logged in as admin.
-Then type /cheats at any time for the in-game command list.
+    Change the 0 to a 1, then rebuild and restart:
 
-If a command replies "You are not logged in as an admin", your login
-expired or failed - just run /rcon login root again.
+        ./tools/build.sh filterscripts/cheats.pwn
+
+    Now every command requires /rcon login root first, using the
+    rcon_password from server.cfg.
+
+    Worth doing if you ever open this server to the internet: as it
+    stands, anyone who joins can spawn a tank, and /get lets them drag
+    other players across the map.
 
 NOTE: GTA's normal single-player cheat codes (HESOYAM, AEZAKMI, ...) do
 NOT work in SA-MP and never will. SA-MP removes them on purpose. The
@@ -56,8 +63,8 @@ commands below are the replacement.
     /god                  -> "God mode ON"
     /god                  -> "God mode OFF"
 
-    God mode turns itself OFF automatically if you log out of RCON, so
-    you can't leave yourself invincible by accident.
+    God mode stays on until you type /god again, or until you leave
+    the server.
 
     God mode does NOT protect against: drowning, falling out of the map,
     or being set on fire in some cases. It is health regen, not a shield.
@@ -304,7 +311,6 @@ commands below are the replacement.
 ------------------------------------------------------------------------------
 
 Fully loaded and unkillable:
-    /rcon login root
     /god
     /armour
     /guns
@@ -342,8 +348,9 @@ Nice weather for screenshots:
 ------------------------------------------------------------------------------
 
 "You are not logged in as an admin"
-    Run /rcon login root again. Logging in is per-session; reconnecting
-    or a server restart logs you out.
+    Only appears if REQUIRE_ADMIN is set to 1 in cheats.pwn. Run
+    /rcon login root. Logging in is per-session, so reconnecting or a
+    server restart logs you out again.
 
 "SERVER: Unknown command" / nothing happens
     The cheats filterscript isn't loaded. Check that server.cfg has

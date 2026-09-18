@@ -9,8 +9,9 @@ customization. It is a game server you configure and script, not an application 
 `samp03svr` is a prebuilt closed-source binary — it is never compiled here. Only the Pawn
 scripts are.
 
-The one local addition so far is `filterscripts/cheats.pwn` (RCON-gated admin/cheat commands)
-and the `tools/` toolchain that builds it. `COMMANDS.txt` is its player-facing reference.
+The one local addition so far is `filterscripts/cheats.pwn` (admin/cheat commands, currently
+open to all players — see Conventions) and the `tools/` toolchain that builds it.
+`COMMANDS.txt` is its player-facing reference.
 
 ## Commands
 
@@ -116,8 +117,10 @@ official include. It is not worth fixing.
   oversight.
 - Match the surrounding Pawn style: tabs, `//---` separator comments between handlers,
   `static` for script-local state, `MAX_PLAYERS`-sized arrays cleared in `OnPlayerConnect`.
-- Gate admin functionality behind `IsPlayerAdmin(playerid)` (RCON login), the only auth the
-  server offers out of the box.
+- `IsPlayerAdmin(playerid)` (RCON login) is the only auth the server offers out of the box.
+  `cheats.pwn` routes every command through its own `CanUseCheats()` helper, compiled by the
+  `REQUIRE_ADMIN` define at the top of that file — currently `0`, meaning all players may use
+  the cheat commands without logging in. Flip it to `1` to restore the admin gate.
 - `server.cfg` carries live local tuning and the RCON password; `server.cfg.bak` is the
   pre-customization copy.
 

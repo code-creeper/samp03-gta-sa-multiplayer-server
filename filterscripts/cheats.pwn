@@ -1,7 +1,9 @@
 //
 // Cheat/admin commands for SA-MP 0.3.7
-// Every command requires RCON admin: /rcon login <password>
 // Type /cheats in game for the command list.
+//
+// By default every player may use these commands, with no login.
+// Set REQUIRE_ADMIN to 1 below to lock them to RCON admins again.
 //
 
 #include <a_samp>
@@ -11,6 +13,9 @@
 #define CHEAT_USAGE_COLOR     0xFFCC2299
 
 #define GOD_HEALTH            99999.0
+
+// 0 = anyone can use the commands.  1 = /rcon login required first.
+#define REQUIRE_ADMIN         0
 
 static bool:bPlayerGod[MAX_PLAYERS];
 
@@ -24,9 +29,16 @@ stock SendUsage(playerid, const usage[])
 
 //------------------------------------------------
 
-stock NotAdmin(playerid)
+stock CanUseCheats(playerid)
 {
-	SendClientMessage(playerid, CHEAT_MESSAGE_COLOR, "* You are not logged in as an admin. Use /rcon login <password>");
+#if REQUIRE_ADMIN
+	if(!IsPlayerAdmin(playerid)) {
+		SendClientMessage(playerid, CHEAT_MESSAGE_COLOR, "* You are not logged in as an admin. Use /rcon login <password>");
+		return 0;
+	}
+#else
+	#pragma unused playerid
+#endif
 	return 1;
 }
 
@@ -38,7 +50,11 @@ public OnFilterScriptInit()
 
 	SetTimer("GodModeTick", 1000, true);
 
+#if REQUIRE_ADMIN
 	printf("\n--Cheats FS loaded. Type /cheats in game (RCON admin required).\n");
+#else
+	printf("\n--Cheats FS loaded. Type /cheats in game. Open to all players.\n");
+#endif
 	return 1;
 }
 
@@ -67,12 +83,14 @@ public GodModeTick()
 	{
 		if(!IsPlayerConnected(i) || !bPlayerGod[i]) continue;
 
-		// Admin can lose god mode by logging out of RCON.
+#if REQUIRE_ADMIN
+		// Losing RCON auth also drops god mode.
 		if(!IsPlayerAdmin(i)) {
 			bPlayerGod[i] = false;
 			SetPlayerHealth(i, 100.0);
 			continue;
 		}
+#endif
 
 		SetPlayerHealth(i, GOD_HEALTH);
 
@@ -95,7 +113,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 
 	if(strcmp("/cheats", cmd, true) == 0)
 	{
-		if(!IsPlayerAdmin(playerid)) return NotAdmin(playerid);
+		if(!CanUseCheats(playerid)) return 1;
 
 		SendClientMessage(playerid, CHEAT_MESSAGE_COLOR, "--- Cheat commands ---");
 		SendClientMessage(playerid, CHEAT_USAGE_COLOR, "/hp [amt]  /armour [amt]  /god  /jetpack");
@@ -111,7 +129,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 
 	if(strcmp("/hp", cmd, true) == 0)
 	{
-		if(!IsPlayerAdmin(playerid)) return NotAdmin(playerid);
+		if(!CanUseCheats(playerid)) return 1;
 
 		new Float:amount = 100.0;
 
@@ -129,7 +147,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 
 	if(strcmp("/armour", cmd, true) == 0 || strcmp("/armor", cmd, true) == 0)
 	{
-		if(!IsPlayerAdmin(playerid)) return NotAdmin(playerid);
+		if(!CanUseCheats(playerid)) return 1;
 
 		new Float:amount = 100.0;
 
@@ -147,7 +165,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 
 	if(strcmp("/god", cmd, true) == 0)
 	{
-		if(!IsPlayerAdmin(playerid)) return NotAdmin(playerid);
+		if(!CanUseCheats(playerid)) return 1;
 
 		if(bPlayerGod[playerid]) {
 			bPlayerGod[playerid] = false;
@@ -165,7 +183,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 
 	if(strcmp("/jetpack", cmd, true) == 0)
 	{
-		if(!IsPlayerAdmin(playerid)) return NotAdmin(playerid);
+		if(!CanUseCheats(playerid)) return 1;
 
 		SetPlayerSpecialAction(playerid, SPECIAL_ACTION_USEJETPACK);
 		SendClientMessage(playerid, CHEAT_MESSAGE_COLOR, "* Jetpack granted");
@@ -176,7 +194,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 
 	if(strcmp("/cash", cmd, true) == 0)
 	{
-		if(!IsPlayerAdmin(playerid)) return NotAdmin(playerid);
+		if(!CanUseCheats(playerid)) return 1;
 
 		new amount = 100000;
 
@@ -194,7 +212,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 
 	if(strcmp("/setcash", cmd, true) == 0)
 	{
-		if(!IsPlayerAdmin(playerid)) return NotAdmin(playerid);
+		if(!CanUseCheats(playerid)) return 1;
 
 		tmp = strtok(cmdtext, idx);
 		if(!strlen(tmp)) return SendUsage(playerid, "Usage: /setcash (amount)");
@@ -213,7 +231,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 
 	if(strcmp("/wep", cmd, true) == 0)
 	{
-		if(!IsPlayerAdmin(playerid)) return NotAdmin(playerid);
+		if(!CanUseCheats(playerid)) return 1;
 
 		tmp = strtok(cmdtext, idx);
 		if(!strlen(tmp)) return SendUsage(playerid, "Usage: /wep (weaponid 1-46) [ammo]");
@@ -239,7 +257,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 
 	if(strcmp("/guns", cmd, true) == 0)
 	{
-		if(!IsPlayerAdmin(playerid)) return NotAdmin(playerid);
+		if(!CanUseCheats(playerid)) return 1;
 
 		static const iGunPack[] = {
 			4,    // knife
@@ -267,7 +285,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 
 	if(strcmp("/noguns", cmd, true) == 0)
 	{
-		if(!IsPlayerAdmin(playerid)) return NotAdmin(playerid);
+		if(!CanUseCheats(playerid)) return 1;
 
 		ResetPlayerWeapons(playerid);
 		SendClientMessage(playerid, CHEAT_MESSAGE_COLOR, "* Weapons cleared");
@@ -278,7 +296,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 
 	if(strcmp("/veh", cmd, true) == 0)
 	{
-		if(!IsPlayerAdmin(playerid)) return NotAdmin(playerid);
+		if(!CanUseCheats(playerid)) return 1;
 
 		tmp = strtok(cmdtext, idx);
 		if(!strlen(tmp)) return SendUsage(playerid, "Usage: /veh (model 400-611) [colour1] [colour2]");
@@ -318,7 +336,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 
 	if(strcmp("/fix", cmd, true) == 0)
 	{
-		if(!IsPlayerAdmin(playerid)) return NotAdmin(playerid);
+		if(!CanUseCheats(playerid)) return 1;
 
 		new vehicleid = GetPlayerVehicleID(playerid);
 		if(vehicleid == 0) {
@@ -334,7 +352,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 
 	if(strcmp("/nos", cmd, true) == 0)
 	{
-		if(!IsPlayerAdmin(playerid)) return NotAdmin(playerid);
+		if(!CanUseCheats(playerid)) return 1;
 
 		new vehicleid = GetPlayerVehicleID(playerid);
 		if(vehicleid == 0) {
@@ -350,7 +368,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 
 	if(strcmp("/flip", cmd, true) == 0)
 	{
-		if(!IsPlayerAdmin(playerid)) return NotAdmin(playerid);
+		if(!CanUseCheats(playerid)) return 1;
 
 		new vehicleid = GetPlayerVehicleID(playerid);
 		if(vehicleid == 0) {
@@ -369,7 +387,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 
 	if(strcmp("/tp", cmd, true) == 0)
 	{
-		if(!IsPlayerAdmin(playerid)) return NotAdmin(playerid);
+		if(!CanUseCheats(playerid)) return 1;
 
 		new Float:x, Float:y, Float:z;
 
@@ -398,7 +416,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 
 	if(strcmp("/goto", cmd, true) == 0)
 	{
-		if(!IsPlayerAdmin(playerid)) return NotAdmin(playerid);
+		if(!CanUseCheats(playerid)) return 1;
 
 		tmp = strtok(cmdtext, idx);
 		if(!strlen(tmp)) return SendUsage(playerid, "Usage: /goto (playerid)");
@@ -430,7 +448,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 
 	if(strcmp("/get", cmd, true) == 0)
 	{
-		if(!IsPlayerAdmin(playerid)) return NotAdmin(playerid);
+		if(!CanUseCheats(playerid)) return 1;
 
 		tmp = strtok(cmdtext, idx);
 		if(!strlen(tmp)) return SendUsage(playerid, "Usage: /get (playerid)");
@@ -462,7 +480,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 
 	if(strcmp("/skin", cmd, true) == 0)
 	{
-		if(!IsPlayerAdmin(playerid)) return NotAdmin(playerid);
+		if(!CanUseCheats(playerid)) return 1;
 
 		tmp = strtok(cmdtext, idx);
 		if(!strlen(tmp)) return SendUsage(playerid, "Usage: /skin (0-311)");
@@ -483,7 +501,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 
 	if(strcmp("/weather", cmd, true) == 0)
 	{
-		if(!IsPlayerAdmin(playerid)) return NotAdmin(playerid);
+		if(!CanUseCheats(playerid)) return 1;
 
 		tmp = strtok(cmdtext, idx);
 		if(!strlen(tmp)) return SendUsage(playerid, "Usage: /weather (0-45)");
@@ -504,7 +522,7 @@ public OnPlayerCommandText(playerid, cmdtext[])
 
 	if(strcmp("/time", cmd, true) == 0)
 	{
-		if(!IsPlayerAdmin(playerid)) return NotAdmin(playerid);
+		if(!CanUseCheats(playerid)) return 1;
 
 		tmp = strtok(cmdtext, idx);
 		if(!strlen(tmp)) return SendUsage(playerid, "Usage: /time (hour 0-23)");
