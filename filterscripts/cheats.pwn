@@ -512,6 +512,8 @@ public OnPlayerCommandText(playerid, cmdtext[])
 		}
 
 		SetWeather(weatherid);
+		// worldlock owns the weather; tell it the new value or it reverts on its next tick.
+		CallRemoteFunction("SetWorldLockWeather", "i", weatherid);
 
 		format(Message, sizeof(Message), "* Weather set to %d", weatherid);
 		SendClientMessage(playerid, CHEAT_MESSAGE_COLOR, Message);
@@ -533,6 +535,8 @@ public OnPlayerCommandText(playerid, cmdtext[])
 		}
 
 		SetWorldTime(hour);
+		// Same again - worldlock re-asserts the time every 30 seconds.
+		CallRemoteFunction("SetWorldLockTime", "i", hour);
 
 		format(Message, sizeof(Message), "* World time set to %d:00", hour);
 		SendClientMessage(playerid, CHEAT_MESSAGE_COLOR, Message);

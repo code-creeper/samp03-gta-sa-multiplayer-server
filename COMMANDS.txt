@@ -305,6 +305,12 @@ commands below are the replacement.
     Note: /weather and /time affect every player on the server, not
     just you.
 
+    The server starts locked to weather 11 and 12:00 - clear sky, midday
+    sun, no clouds or fog, so you can fly and still see buildings from a
+    distance. It stays there; the time of day never rolls into night on
+    its own. /weather and /time change what it is locked to, so whatever
+    you set is what everyone keeps until someone sets it again.
+
 
 ------------------------------------------------------------------------------
  7. READY-MADE COMBOS
