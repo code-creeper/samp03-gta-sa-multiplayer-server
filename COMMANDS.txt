@@ -1,6 +1,6 @@
 ==============================================================================
  CHEAT / ADMIN COMMANDS  -  SA-MP 0.3.7 server
- Provided by filterscripts/cheats.pwn
+ Provided by filterscripts/cheats.pwn, races by filterscripts/races.pwn
 ==============================================================================
 
 ------------------------------------------------------------------------------
@@ -319,7 +319,59 @@ commands below are the replacement.
 
 
 ------------------------------------------------------------------------------
- 7. READY-MADE COMBOS
+ 7. RACES
+------------------------------------------------------------------------------
+
+Proper GTA races: a starting grid, a 3-2-1 countdown, and the glowing
+checkpoints with the arrow leaning towards the next one. Everyone on the
+server races together.
+
+/races                    List the tracks and their numbers.
+
+/race (number)            Start that track. EVERYONE on the server is put
+                          on the grid in the same car and counted down.
+
+    1  Lowrider Race      Los Santos, Idlewood      1 lap   Blade
+    2  Little Loop        Los Santos, downtown      2 laps  Banshee
+    3  City Circuit       Los Santos, all round it  2 laps  Bullet
+    4  Badlands           Red County back roads     1 lap   Sandking
+    5  SF Fastlane        San Fierro streets        1 lap   Turismo
+    6  LV Ringroad        Las Venturas ring         2 laps  Infernus
+
+/raceleave                Drop out. The others keep racing.
+
+/racestop                 Cancel the race for everyone.
+
+HOW IT RUNS
+    One race at a time. Whoever types /race starts it and everybody
+    joins - there is no waiting room, because on a private server that
+    is just a delay. Anyone still choosing a city or skin is skipped,
+    and anyone who dies drops out.
+
+    You get the car the track specifies, the same for everyone, so it
+    is the driving that decides it. Cars are removed when the race ends.
+
+    Your time and finishing place are announced as you cross the line.
+
+IF A CHECKPOINT SITS SOMEWHERE STUPID
+    These tracks are recreations of the single-player races, not the
+    original coordinates - those are locked inside the game's compiled
+    mission script. Every checkpoint is placed on a real road position,
+    but a route may still take an awkward line.
+
+    They are plain text, so you can fix one yourself:
+
+        scriptfiles/races/03_citycircuit.txt
+
+    Each "cp" line is x,y,z,radius. Edit it, then in game type
+    /rcon reloadfs races - no recompile, no restart. Widening the
+    radius is the easy fix if a checkpoint is merely hard to reach.
+
+    To rebuild all six from scratch: python3 tools/maketrack.py
+
+
+------------------------------------------------------------------------------
+ 8. READY-MADE COMBOS
 ------------------------------------------------------------------------------
 
 Fully loaded and unkillable:
@@ -356,7 +408,7 @@ Nice weather for screenshots:
 
 
 ------------------------------------------------------------------------------
- 8. IF SOMETHING DOESN'T WORK
+ 9. IF SOMETHING DOESN'T WORK
 ------------------------------------------------------------------------------
 
 "You are not logged in as an admin"

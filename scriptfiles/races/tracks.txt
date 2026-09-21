@@ -1,0 +1,7 @@
+; Tracks loaded by filterscripts/races.pwn, in /race order.
+01_lowrider.txt
+02_littleloop.txt
+03_citycircuit.txt
+04_badlands.txt
+05_sffastlane.txt
+06_lvringroad.txt
