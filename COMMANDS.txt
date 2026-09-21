@@ -282,6 +282,12 @@ commands below are the replacement.
     Changing skin resets your weapons in some gamemodes - re-run /guns
     afterwards if you lose them.
 
+    AT SPAWN: after you pick a city, the character carousel opens on CJ.
+    He is first in the list, so just press Spawn to take him - the left
+    and right keys still scroll through the other 45 skins. CJ is worth
+    keeping: his is the only model that uses the single-player animation
+    set, which is why he runs and sprints faster than the rest.
+
 /weather (id)             Change the weather for the WHOLE server. 0-45.
 
     /weather 0            bright clear sky

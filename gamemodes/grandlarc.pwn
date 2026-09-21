@@ -342,6 +342,8 @@ public OnGameModeInit()
 	ClassSel_InitTextDraws();
 
 	// Player Class
+	// Skin 0 is CJ.  Kept first so the carousel opens on him.
+	AddPlayerClass(0,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1);
 	AddPlayerClass(1,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1);
 	AddPlayerClass(2,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1);
  	AddPlayerClass(269,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1);
